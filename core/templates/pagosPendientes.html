@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Aprobaciones
+{% endblock %}
+
+{% block content %}
+<div class="pago-formulario">
+
+    <h2>Pagos Pendientes</h2>
+
+    <p>
+        En esta sección se muestran todos los pagos pendientes de autorización.
+        Seleccione la acción que desea realizar.
+    </p>
+
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Detalle</th>
+            <th>Cuenta</th>
+            <th>Monto</th>
+            <th>Fecha</th>
+            <th>Estatus</th>
+            <th>Acción</th>
+        </tr>
+
+        {% for pago in Pagos %}
+        <tr>
+            <td>{{ pago.nombre_pago }}</td>
+            <td>{{ pago.detalle_pago }}</td>
+            <td>{{ pago.banco_id.nombre }}</td>
+            <td>{{ pago.monto_pago }}</td>
+            <td>{{ pago.fecha_creacion }}</td>
+            <td>{{ pago.estatus }}</td>
+
+            <td style="text-align:center;">
+                <a class="aprobar" href="/aprobarPago/{{ pago.pago_id }}">
+                    APROBAR
+                </a>
+
+                |
+
+                <a class="rechazar" href="/rechazarPago/{{ pago.pago_id }}">
+                    RECHAZAR
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <br>
+
+    <a href="/menu">
+        MENÚ
+    </a>
+
+</div>
+{% endblock %}

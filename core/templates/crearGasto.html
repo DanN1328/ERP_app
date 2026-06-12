@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Crear Pago
+{% endblock %}
+
+{% block content %}
+ <div class="contenedor">
+
+<div class="gastos-formulario">
+
+    <h2>Generación de Gastos</h2>
+
+    <form action="/crearGastos/" method="POST">
+        {% csrf_token %}
+
+        <label for="nombre_gasto">Nombre de gasto:</label>
+        <input type="text" id="nombre_gasto" maxlength="100" name="nombre_gasto" placeholder="Nombre del gasto" required>
+
+        <label for="detalle_gasto">Detalle de gasto:</label>
+        <textarea rows="4" cols="50" id="detalle_gasto" name="detalle_gasto" placeholder="Detalle del gasto" required></textarea>
+
+        <label>Cliente:</label>
+        <select name="cliente" required>
+            <option value="">Seleccione un cliente</option>
+
+            {% for cliente in Cliente %}
+                <option value="{{ cliente.id }}">
+                    {{ cliente.nombre }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label for="monto">Monto a pagar MXN:</label>
+        <input type="number" id="monto" min="0.01" max="999999999999" step="0.01" name="monto" placeholder="$MXN" required>
+
+        <input type="submit" value="CREAR GASTO">
+    </form>
+
+    <a href="/menu">MENÚ</a>
+
+</div>
+{% endblock %}

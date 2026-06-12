@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Crear Pago
+{% endblock %}
+
+{% block content %}
+
+
+<div class="pago-formulario">
+
+    <form action="/pagarPago/{{ Gastos.gasto_id }}" method="POST">
+        {% csrf_token %}
+
+        <h2>{{ Gastos.nombre_gasto }}</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2">Detalles del gasto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Monto total</td>
+                    <td>{{ Gastos.monto_total }}</td>
+                </tr>
+                <tr>
+                    <td>Monto pagado</td>
+                    <td>{{ Gastos.monto_pagado }}</td>
+                </tr>
+                <tr>
+                    <td>Monto a pagar</td>
+                    <td>{{ Faltante }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <label>Cuenta bancaria:</label>
+        <select name="cuenta" required>
+            <option value="">Seleccione la cuenta bancaria</option>
+
+            {% for cuenta in Cuenta %}
+                <option value="{{ cuenta.banco_id }}">
+                    {{ cuenta.nombre }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label for="monto">Monto a pagar MXN:</label>
+        <input
+            type="number"
+            id="monto"
+            min="0.01"
+            max="{{ Faltante }}"
+            step="0.01"
+            name="monto"
+            placeholder="$MXN"
+            required>
+
+        <input type="submit" value="PAGAR">
+
+    </form>
+
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Aprobaciones
+{% endblock %}
+
+{% block content %}
+    <div class="pago-formulario">
+
+    <h2>Pagos de Gastos Aprobados</h2>
+
+    <p>
+        En esta sección aparecerán todos los gastos aprobados.
+        Seleccione el gasto que desea pagar de forma parcial o total.
+    </p>
+
+    <table>
+        <tr>
+            <th>Nombre de gasto</th>
+            <th>Detalle</th>
+            <th>Cliente</th>
+            <th>Monto total</th>
+            <th>Monto pagado</th>
+            <th>Fecha creación</th>
+            <th>Acción</th>
+        </tr>
+
+        {% for gasto in Gastos %}
+        <tr>
+            <td>{{ gasto.nombre_gasto }}</td>
+            <td>{{ gasto.detalle_gasto }}</td>
+            <td>{{ gasto.cliente }}</td>
+            <td>{{ gasto.monto_total }}</td>
+            <td>{{ gasto.monto_pagado }}</td>
+            <td>{{ gasto.fecha_creacion }}</td>
+            <td style="text-align:center;">
+                <a href="/crearPago/{{ gasto.gasto_id}}">
+                    PAGAR
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <br>
+
+    <a href="/menu">
+        MENÚ
+    </a>
+
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}ERP{% endblock %}</title>
+    <!-- Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Custom CSS-->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+</head>
+<body>
+    {% if messages %}
+    <div id="toast-container">
+        {% for message in messages %}
+            <div class="custom-toast {{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% block content %}
+    {% endblock %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+
+            const mensajes = document.querySelectorAll(".custom-toast");
+
+            mensajes.forEach(function(msg){
+
+                setTimeout(function(){
+
+                    msg.style.transition = "opacity 0.5s";
+                    msg.style.opacity = "0";
+
+                    setTimeout(function(){
+                        msg.remove();
+                    }, 500);
+
+                }, 5000);
+
+            });
+
+        });
+    </script>
+</body>
+</html>

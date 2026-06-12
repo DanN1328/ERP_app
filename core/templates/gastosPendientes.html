@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Aprobaciones
+{% endblock %}
+
+{% block content %}
+<div class="pago-formulario">
+
+    <h2>Gastos Pendientes</h2>
+
+    <p>
+        En esta sección se muestran todos los gastos pendientes de aprobación.
+        Seleccione la acción que desea realizar.
+    </p>
+
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Detalle</th>
+            <th>Cliente</th>
+            <th>Total</th>
+            <th>Pagado</th>
+            <th>Fecha</th>
+            <th>Estatus</th>
+            <th>Acción</th>
+        </tr>
+
+        {% for gasto in Gastos %}
+        <tr>
+            <td>{{ gasto.nombre_gasto }}</td>
+            <td>{{ gasto.detalle_gasto }}</td>
+            <td>{{ gasto.cliente }}</td>
+            <td>{{ gasto.monto_total }}</td>
+            <td>{{ gasto.monto_pagado }}</td>
+            <td>{{ gasto.fecha_creacion }}</td>
+            <td>{{ gasto.estatus }}</td>
+
+            <td style="text-align:center;">
+                <a class="aprobar" href="/aprobarGasto/{{ gasto.gasto_id }}">
+                    APROBAR
+                </a>
+
+                |
+
+                <a class="rechazar" href="/rechazarGasto/{{ gasto.gasto_id }}">
+                    RECHAZAR
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <br>
+
+    <a href="/menu">
+        MENÚ
+    </a>
+
+</div>
+{% endblock %}

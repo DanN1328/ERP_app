@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Crear Pago
+{% endblock %}
+
+{% block content %}
+<body class="container mt-4">
+
+    <h1>CUENTAS BANCARIAS</h1>
+
+    <button
+        class="btn btn-success mb-3"
+        data-bs-toggle="modal"
+        data-bs-target="#nuevoBancoModal">
+        Nuevo Banco
+    </button>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre de cuenta</th>
+                <th>Fondos</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for cuenta in Cuenta %}
+            <tr>
+                <td>{{ cuenta.nombre }}</td>
+                <td>${{ cuenta.fondos }}</td>
+
+                <td>
+                    <button
+                        class="btn btn-primary btn-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#movimientoModal"
+                        data-id="{{ cuenta.banco_id }}"
+                        data-nombre="{{ cuenta.nombre }}">
+                        Gestionar Fondos
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+    <a href="/menu">MENÚ</a>
+
+    <!-- MODAL NUEVO BANCO -->
+    <div class="modal fade" id="nuevoBancoModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5>Nuevo Banco</h5>
+                </div>
+
+                <form method="POST" action="/crear-banco/">
+                    {% csrf_token %}
+
+                    <div class="modal-body">
+
+                        <label>Nombre</label>
+
+                        <input
+                            type="text"
+                            name="nombre"
+                            class="form-control"
+                            required>
+
+                        <br>
+
+                        <label>Fondos Iniciales</label>
+
+                        <input
+                            type="number"
+                            step="0.01"
+                            name="fondos"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button
+                            type="submit"
+                            class="btn btn-success">
+                            Guardar
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL MOVIMIENTO -->
+    <div class="modal fade" id="movimientoModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5>Movimiento de Fondos</h5>
+                </div>
+
+                <form method="POST" action="/movimiento-banco/">
+                    {% csrf_token %}
+
+                    <div class="modal-body">
+
+                        <input
+                            type="hidden"
+                            id="banco_id"
+                            name="banco_id">
+
+                        <p>
+                            Banco:
+                            <strong id="nombreBanco"></strong>
+                        </p>
+
+                        <label>Tipo</label>
+
+                        <select
+                            name="tipo"
+                            class="form-control">
+
+                            <option value="deposito">
+                                Agregar Fondos
+                            </option>
+
+                            <option value="retiro">
+                                Retirar Fondos
+                            </option>
+
+                        </select>
+
+                        <br>
+
+                        <label>Monto</label>
+
+                        <input
+                            type="number"
+                            step="0.01"
+                            name="monto"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+                            Guardar
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+
+        const movimientoModal =
+            document.getElementById('movimientoModal');
+
+        movimientoModal.addEventListener(
+            'show.bs.modal',
+            function(event){
+
+                const button =
+                    event.relatedTarget;
+
+                const bancoId =
+                    button.getAttribute('data-id');
+
+                const nombreBanco =
+                    button.getAttribute('data-nombre');
+
+                document.getElementById(
+                    'banco_id'
+                ).value = bancoId;
+
+                document.getElementById(
+                    'nombreBanco'
+                ).innerText = nombreBanco;
+            }
+        );
+
+    </script>
+
+{% endblock %}

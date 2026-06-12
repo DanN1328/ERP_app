@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Aprobaciones
+{% endblock %}
+
+{% block content %}
+
+<div class="sticky-top bg-dark text-white p-3 shadow">
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h2 class="mb-0">Sistema de gestión de gastos y pagos</h2>
+        <small class="text-light">
+            Dashboard financiero
+        </small>
+    </div>
+
+    <div class="d-flex align-items-center gap-2">
+
+        <a href="/clientes/" class="btn btn-primary">
+            👥 Clientes
+        </a>
+
+        <form method="POST" action="/seleccionar-banco/" class="mb-0">
+            {% csrf_token %}
+
+            <select
+                class="form-select"
+                name="banco_id"
+                onchange="this.form.submit()">
+
+                <option value="">Todos los bancos</option>
+
+                {% for banco in Bancos %}
+                <option
+                    value="{{ banco.banco_id }}"
+                    {% if banco.banco_id == banco_activo %}
+                        selected
+                    {% endif %}
+                >
+                    {{ banco.nombre }}
+                </option>
+                {% endfor %}
+
+            </select>
+
+        </form>
+
+        <a href="/logout/" class="btn btn-outline-light">
+            🚪 Salir
+        </a>
+
+    </div>
+
+</div>
+
+    <div class="row g-3">
+
+        <div class="col-md-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <small class="text-muted">Fondos totales</small>
+                    <h4 id="kpiFondos" class="mb-0">$0</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <small class="text-muted">Gastos pendientes</small>
+                    <h4 id="kpiGastos" class="mb-0">0</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <small class="text-muted">Pagos pendientes</small>
+                    <h4 id="kpiPagos" class="mb-0">0</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <small class="text-muted">Clientes</small>
+                    <h4 id="kpiClientes" class="mb-0">0</h4>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card mb-4 shadow-sm">
+    <div class="card-header text-center fw-bold">
+    Acciones rápidas
+</div>
+<div class="card-body">
+    <div class="d-flex justify-content-between gap-3">
+
+        <a href="/cuentasBancarias/" class="btn btn-outline-primary flex-fill">
+            🏦 Cuentas bancarias
+        </a>
+
+        <a href="/buscarGastos/" class="btn btn-outline-warning flex-fill">
+            📄 Gastos pendientes
+        </a>
+
+        <a href="/buscarPagos/" class="btn btn-outline-danger flex-fill">
+            💳 Pagos pendientes
+        </a>
+
+        <a href="/pagosAprobados/" class="btn btn-outline-success flex-fill">
+            &#128184; Pagos aprobados
+        </a>
+
+        <a href="/Gastos/" class="btn btn-outline-success flex-fill">
+            ➕ Crear gasto
+        </a>
+
+        <a href="/Pagos/" class="btn btn-outline-info flex-fill">
+            💰 Crear pago
+        </a>
+
+    </div>
+</div>
+</div>
+</div>
+
+<div class="row mt-4">
+
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                Pagos por día
+            </div>
+
+            <div class="card-body">
+                <div id="gastosDiaChart" class="chart"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                Gastos por Estatus
+            </div>
+
+            <div class="card-body">
+                <div id="gastosEstatusChart" class="chart"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row mt-4">
+
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                Pagos por Banco
+            </div>
+
+            <div class="card-body">
+                <div id="fondosBancoChart" class="chart"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                Gastos por cliente
+            </div>
+
+            <div class="card-body">
+                <div id="gastosClienteChart" class="chart"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- APACHE ECharts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/6.0.0/echarts.min.js"></script>
+
+<!-- Custom JS -->
+<script type="module" src="{% static 'js/dashboards.js' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Aprobaciones
+{% endblock %}
+
+{% block content %}
+<div class="pago-formulario">
+
+    <h2>Pagos aprobados</h2>
+
+    <p>
+        En esta sección se muestran todos los pagos ya aprobados.
+        al entrar a cada pago, deberá seleccionar la cuenta y el monto a pagar.
+        En caso de no pagar el monto completo, el pago seguirá apareciendo en esta pantalla hasta pagar en su totalidad
+    </p>
+
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Detalle</th>
+            <th>Monto</th>
+            <th>Fecha</th>
+            <th>Acción</th>
+        </tr>
+
+        {% for pago in Aprobados %}
+        <tr>
+            <td>{{ pago.nombre_pago }}</td>
+            <td>{{ pago.detalle_pago }}</td>
+            <td>{{ pago.monto_pago }}</td>
+            <td>{{ pago.fecha_creacion }}</td>
+
+            <td style="text-align:center;">
+                <a class="aprobar" href="/detallePagos/{{ pago.gasto_id.gasto_id }}">
+                    PROCEDER AL PAGO
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <br>
+
+    <a href="/menu">
+        MENÚ
+    </a>
+
+</div>
+{% endblock %}
