@@ -13,8 +13,6 @@ media/
 # VS Code
 .vscode/
 
-# Static Files
-staticfiles/
 
 # Environment Variables
 .env
