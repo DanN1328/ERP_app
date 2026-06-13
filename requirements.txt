@@ -2,3 +2,4 @@ Django==6.0.6
 djangorestframework==3.17.1
 djangorestframework_simplejwt==5.5.1
 gunicorn==26.0.0
+whitenoise==6.12.0
