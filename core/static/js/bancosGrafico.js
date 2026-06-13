@@ -12,8 +12,8 @@ export async function initPagosBanco() {
         let series = [];
         // Obtener fechas únicas
         for(let i = 0; i < datos.length; i++){
-            if(!fechas.includes(datos[i].fecha__pago)){
-                fechas.push(datos[i].fecha__pago);
+            if(!fechas.includes(datos[i].fecha_pago)){
+                fechas.push(datos[i].fecha_pago);
             }
         }
         // Obtener bancos únicos
@@ -31,7 +31,7 @@ export async function initPagosBanco() {
                 let total = 0;
                 for(let k = 0; k < datos.length; k++){
                     if(
-                        datos[k].fecha == fecha &&
+                        datos[k].fecha_pago == fecha &&
                         datos[k].banco__nombre == banco
                     ){
                         total = datos[k].total;
