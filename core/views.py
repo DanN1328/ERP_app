@@ -1,14 +1,12 @@
 from django.shortcuts import render, redirect
 from .models import *
-from django.db.models import Q
 from django.http import JsonResponse
 from django.db.models import Sum,Count
 from rest_framework import viewsets
-from .serializer import gastoSerializers, pagoSerializers
+from .serializer import *
 from django.utils import timezone
 from decimal import Decimal
 from django.contrib import messages
-from django.db.models.functions import TruncDay
 from django.contrib.auth import authenticate
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -389,4 +387,14 @@ class gastoViewSets(viewsets.ReadOnlyModelViewSet):
 class pagosViewSets(viewsets.ReadOnlyModelViewSet):
     queryset = Pagos.objects.all()
     serializer_class = pagoSerializers
+    permission_classes = [IsAuthenticated]
+
+class detallePagoViewSets(viewsets.ReadOnlyModelViewSet):
+    queryset = DetallePago.objects.all()
+    serializer_class = detallePagoSerializers
+    permission_classes = [IsAuthenticated]
+
+class bancoViewSets(viewsets.ReadOnlyModelViewSet):
+    queryset = Banco.objects.all()
+    serializer_class = bancoSerializers
     permission_classes = [IsAuthenticated]

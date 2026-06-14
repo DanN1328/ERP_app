@@ -8,6 +8,8 @@ from core import views
 router = routers.DefaultRouter()
 router.register(r'pagos',views.pagosViewSets)
 router.register(r'gastos',views.gastoViewSets)
+router.register(r'bancos',views.bancoViewSets)
+router.register(r'detallePagos',views.detallePagoViewSets)
 
 urlpatterns = [
     path('',include(router.urls))

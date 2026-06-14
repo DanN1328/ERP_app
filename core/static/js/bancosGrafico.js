@@ -42,7 +42,7 @@ export async function initPagosBanco() {
             }
             series.push({
                 name: banco,
-                type: "bar",
+                type: "line",
                 data: montos
             });
 
