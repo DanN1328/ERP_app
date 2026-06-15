@@ -147,6 +147,9 @@ class Pagos(models.Model):
             #raise Exception ("El pago ya fue revisado")
         pago.estatus = "CANCELLED"
         pago.save()
+        gasto = pago.gasto_id
+        gasto.estatus = "APPROVED"
+        gasto.save()
         return "REJECT"
 
     #Función para pagar
@@ -216,7 +219,7 @@ class Movimientos(models.Model):
         pagos = Pagos.objects.get(pago_id = id)
         print(f"Monto actual : {pagos.banco_id.fondos} y Monto resultante: {monto - pagos.monto_pago}")
         Movimientos.objects.create(
-            fecha_movimiento = timezone.now().date(),
+            fecha_movimiento = timezone.localtime().date(),
             id_pago = pagos,
             pago = pagos.monto_pago,
             monto_anterior = monto,

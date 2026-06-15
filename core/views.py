@@ -128,7 +128,7 @@ def crearGasto(request):
             monto_total = monto,
             monto_pagado = 0,
             creado_por = request.user,
-            fecha_creacion = timezone.now().date(),
+            fecha_creacion = timezone.localtime().date(),
             estatus = 'PENDING'
         )
         messages.success(request, 'Gasto creado con éxito')
@@ -147,7 +147,7 @@ def crearPago(request, id: int):
                 detalle_pago = detalle,
                 monto_pago = gasto.monto_total,
                 creado_por = request.user,
-                fecha_creacion = timezone.now().date(),
+                fecha_creacion = timezone.localtime().date(),
                 estatus = 'PENDING'
             )
         gasto.estatus = "IN-PROCESS"
